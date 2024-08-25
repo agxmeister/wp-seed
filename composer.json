@@ -11,5 +11,11 @@
             "email": "agxmeister@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "codeception/codeception": "^5.1",
+        "codeception/module-asserts": "*"
+    },
+    "scripts": {
+        "test": "vendor/bin/codecept run"
+    }
 }
