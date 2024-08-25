@@ -1,0 +1,15 @@
+{
+    "name": "agxmeister/wp-seed",
+    "autoload": {
+        "psr-4": {
+            "Seed\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "agxmeister",
+            "email": "agxmeister@gmail.com"
+        }
+    ],
+    "require": {}
+}
