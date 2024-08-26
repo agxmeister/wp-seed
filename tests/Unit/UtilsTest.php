@@ -3,13 +3,12 @@
 namespace Tests\Unit;
 
 use Codeception\Test\Unit;
+use Codeception\Attribute\DataProvider;
 use Seed\Utils;
 
 class UtilsTest extends Unit
 {
-    /**
-     * @dataProvider dataGetDifferentPaths
-     */
+    #[DataProvider('dataGetDifferentPaths')]
     public function testGetDifferentPaths($pathA, $pathB, $expected): void
     {
         $this->assertEquals($expected, Utils::getDifferentPaths($pathA, $pathB));
@@ -23,37 +22,37 @@ class UtilsTest extends Unit
             ], [
                 [], ['f1'], [],
             ], [
-                [], ['d1' => 'd1/f1'], [],
+                [], ['d1' => 'f1'], [],
             ], [
                 ['f1'], ['f1'], [],
             ], [
-                ['d1' => ['d1/f1']], ['d1' => ['d1/f1']], [],
+                ['d1' => ['f1']], ['d1' => ['f1']], [],
             ], [
                 ['f1'], ['f2'], ['f1'],
             ], [
-                ['d1' => ['d1/f1']], ['d2' => ['d2/f2']], ['d1/f1'],
+                ['d1' => ['f1']], ['d2' => ['f2']], ['d1/f1'],
             ], [
                 ['f1'], ['f1', 'f2'], [],
             ], [
-                ['d1' => ['d1/f1']], ['d1' => ['d1/f1'], 'd2' => ['d2/f2']], [],
+                ['d1' => ['f1']], ['d1' => ['f1'], 'd2' => ['f2']], [],
             ], [
                 ['f1', 'f2'], ['f1'], ['f2'],
             ], [
-                ['d1' => ['d1/f1'], 'd2' => ['d2/f2']], ['d1' => ['d1/f1']], ['d2/f2'],
+                ['d1' => ['f1'], 'd2' => ['f2']], ['d1' => ['f1']], ['d2/f2'],
             ], [
-                ['d1' => ['d1/f1'], 'f2'], [], ['d1/f1', 'f2'],
+                ['d1' => ['f1'], 'f2'], [], ['d1/f1', 'f2'],
             ], [
                 ['f1'], [], ['f1'],
             ], [
-                ['d1' => ['d1/f1']], [], ['d1/f1'],
+                ['d1' => ['f1']], [], ['d1/f1'],
             ], [
-                ['d1' => ['d2' => ['d1/d2/f1']]], [], ['d1/d2/f1'],
+                ['d1' => ['d2' => ['f1']]], [], ['d1/d2/f1'],
             ], [
-                ['d1' => ['d2' => ['d1/d2/f1']], 'f2'], ['f2'], ['d1/d2/f1'],
+                ['d1' => ['d2' => ['f1']], 'f2'], ['f2'], ['d1/d2/f1'],
             ], [
-                ['d1' => ['d2' => ['d1/d2/f1'], 'd1/f2']], ['d1' => ['d1/f2']], ['d1/d2/f1'],
+                ['d1' => ['d2' => ['f1'], 'f2']], ['d1' => ['f2']], ['d1/d2/f1'],
             ], [
-                ['d1' => ['d2' => ['d1/d2/f1'], 'd1/f2']], ['d1' => ['d2' => ['d1/d2/f1'], 'd1/f2']], [],
+                ['d1' => ['d2' => ['f1'], 'f2']], ['d1' => ['d2' => ['f1'], 'f2']], [],
             ],
         ];
     }
