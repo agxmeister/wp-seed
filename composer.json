@@ -1,5 +1,18 @@
 {
     "name": "agxmeister/wp-seed",
+    "authors": [
+        {
+            "name": "agxmeister",
+            "email": "agxmeister@gmail.com"
+        }
+    ],
+    "require": {
+        "minicli/minicli": "^4.2"
+    },
+    "require-dev": {
+        "codeception/codeception": "^5.1",
+        "codeception/module-asserts": "*"
+    },
     "autoload": {
         "psr-4": {
             "Seed\\": "src/"
@@ -9,16 +22,6 @@
         "psr-4": {
             "Tests\\": "tests/"
         }
-    },
-    "authors": [
-        {
-            "name": "agxmeister",
-            "email": "agxmeister@gmail.com"
-        }
-    ],
-    "require-dev": {
-        "codeception/codeception": "^5.1",
-        "codeception/module-asserts": "*"
     },
     "scripts": {
         "test": "vendor/bin/codecept run"
