@@ -1,0 +1,9 @@
+services:
+  php:
+    container_name: seed
+    build:
+      context: ./
+    ports:
+      - '9001:9001'
+    volumes:
+      - ./:/var/seed
