@@ -4,14 +4,12 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use Minicli\App;
-use Minicli\Command\CommandCall;
 
 $app = new App();
 $app->setSignature('./seed get-different-paths');
 
-$app->registerCommand('get-different-paths', function(CommandCall $input) {
-    var_dump($input);
-});
+$commands = require __DIR__ . '/../app/commands.php';
+$commands($app);
 
 try {
     $app->runCommand($argv);
