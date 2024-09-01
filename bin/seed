@@ -3,13 +3,16 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use DI\Container;
 use Minicli\App;
 
 $app = new App();
 $app->setSignature('./seed get-different-paths');
 
+$container = new Container();
+
 $commands = require __DIR__ . '/../app/commands.php';
-$commands($app);
+$commands($app, $container);
 
 try {
     $app->runCommand($argv);

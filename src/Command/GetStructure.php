@@ -7,11 +7,14 @@ use Seed\Path;
 
 readonly class GetStructure
 {
+    public function __construct(private Path $path)
+    {
+    }
+
     public function __invoke(CommandCall $input): void
     {
         [ , , $pathArg] = $input->args;
-        $path = new Path();
-        $structure = $path->getStructure($pathArg);
+        $structure = $this->path->getStructure($pathArg);
         var_dump($structure);
     }
 }
