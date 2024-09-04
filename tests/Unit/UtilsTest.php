@@ -11,7 +11,8 @@ class UtilsTest extends Unit
     #[DataProvider('dataGetDifferentPaths')]
     public function testGetDifferentPaths($pathA, $pathB, $expected): void
     {
-        $this->assertEquals($expected, Utils::getDifferentPaths($pathA, $pathB));
+        $utils = new Utils();
+        $this->assertEquals($expected, $utils->getDifferentPaths($pathA, $pathB));
     }
 
     static public function dataGetDifferentPaths(): array

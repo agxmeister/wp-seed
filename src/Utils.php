@@ -4,7 +4,7 @@ namespace Seed;
 
 class Utils
 {
-    static public function getDifferentPaths($pathA, $pathB): array
+    public function getDifferentPaths($pathA, $pathB): array
     {
         if (is_string($pathA)) {
             return $pathA === $pathB ? [] : [$pathA];
@@ -15,7 +15,7 @@ class Utils
                 ...$result,
                 ...array_map(
                     fn($path) => is_string($subPathA) ? $path : $subDirectoryA . '/' . $path,
-                    self::getDifferentPaths($subPathA, $pathB[$subDirectoryA] ?? null),
+                    $this->getDifferentPaths($subPathA, $pathB[$subDirectoryA] ?? null),
                 ),
             ];
         }
