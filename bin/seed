@@ -3,27 +3,16 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use DI\Container;
+use DI\ContainerBuilder;
 use Minicli\App;
-use Monolog\Formatter\LineFormatter;
-use Monolog\Handler\StreamHandler;
-use Monolog\Level;
-use Monolog\Logger;
 
 $app = new App();
 $app->setSignature('./seed get-different-paths');
 
-$container = new Container([
-    Logger::class => DI\factory(function () {
-        $logger = new Logger('log');
-
-        $fileHandler = new StreamHandler('./main.log', Level::Debug);
-        $fileHandler->setFormatter(new LineFormatter());
-        $logger->pushHandler($fileHandler);
-
-        return $logger;
-    }),
-]);
+$containerBuilder = new ContainerBuilder();
+$dependencies = require __DIR__ . '/../app/dependencies.php';
+$dependencies($containerBuilder);
+$container = $containerBuilder->build();
 
 $commands = require __DIR__ . '/../app/commands.php';
 $commands($app, $container);
