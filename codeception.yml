@@ -2,7 +2,13 @@ namespace: Tests
 support_namespace: Support
 suites:
     unit:
-        path: .
+        path: ./Unit
+    acceptance:
+        path: ./Acceptance
+        actor: AcceptanceTester
+        modules:
+            enabled:
+                - Cli
 
 settings:
     shuffle: true
