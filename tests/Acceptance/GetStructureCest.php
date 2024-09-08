@@ -10,7 +10,9 @@ class GetStructureCest
     {
     }
 
-    public function tryToTest(AcceptanceTester $I)
+    public function tryToTest(AcceptanceTester $I): void
     {
+        $I->runShellCommand("./bin/seed get-structure /tmp");
+        $I->seeInShellOutput("");
     }
 }
