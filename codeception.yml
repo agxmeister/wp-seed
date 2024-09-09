@@ -9,6 +9,7 @@ suites:
         modules:
             enabled:
                 - Cli
+                - Asserts
 
 settings:
     shuffle: true
