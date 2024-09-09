@@ -12,7 +12,9 @@ class GetStructureCest
 
     public function tryToTest(AcceptanceTester $I): void
     {
+        $I->runShellCommand("mkdir -p /tmp/test");
         $I->runShellCommand("./bin/seed get-structure /tmp");
-        $I->seeInShellOutput("");
+        $structure = json_decode($I->grabShellOutput(), true);
+        $I->assertEquals(['test' => []], $structure);
     }
 }

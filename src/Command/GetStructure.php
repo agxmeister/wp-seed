@@ -17,6 +17,9 @@ readonly class GetStructure
         $this->logger->debug("Getting structure", [$input]);
         [ , , $pathArg] = $input->args;
         $structure = $this->path->getStructure($pathArg);
+        if (!in_array('--quiet', $input->flags)) {
+            echo json_encode($structure);
+        }
         $this->logger->debug("Structure is ", [$structure]);
     }
 }
