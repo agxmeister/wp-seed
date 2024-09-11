@@ -8,23 +8,18 @@ use Tests\Support\AcceptanceTester;
 
 class GetStructureCest
 {
-    public function _before(AcceptanceTester $I): void
-    {
-        $I->runShellCommand("rm -rf /tmp/*");
-    }
-
     #[Examples(
         [
             [
-                '/tmp/test',
+                'test',
             ],
             [
                 'test' => [],
             ],
         ], [
             [
-                '/tmp/test1',
-                '/tmp/test2',
+                'test1',
+                'test2',
             ],
             [
                 'test1' => [],
@@ -35,9 +30,7 @@ class GetStructureCest
     public function tryToTest(AcceptanceTester $I, Example $example): void
     {
         [$paths, $expected] = $example;
-        foreach ($paths as $path) {
-            $I->runShellCommand("mkdir -p '$path'");
-        }
+        $I->createFileStructure($paths);
         $I->runShellCommand("./bin/seed get-structure /tmp");
         $structure = json_decode($I->grabShellOutput(), true);
         $I->assertEquals($expected, $structure);
