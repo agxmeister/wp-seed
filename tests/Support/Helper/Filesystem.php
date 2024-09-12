@@ -24,7 +24,12 @@ class Filesystem extends Cli
                 $paths
             ) as $path
         ) {
-            $this->runShellCommand("mkdir -p '$path'");
+            if (str_ends_with($path, DIRECTORY_SEPARATOR)) {
+                $this->runShellCommand("mkdir -p '" . rtrim($path, DIRECTORY_SEPARATOR) . "'");
+                continue;
+            }
+            $this->runShellCommand("mkdir -p '" . dirname($path) . "'");
+            $this->runShellCommand("touch '$path'");
         }
     }
 }
