@@ -16,7 +16,8 @@ readonly class GetCore
     {
         $this->logger->debug("Download the latest WordPress core", [$input]);
         [ , , $pathArg] = $input->args;
-        $this->package->getCore($pathArg);
+        $version = $input->params['version'] ?? null;
+        $this->package->getCore($pathArg, $version);
         $this->logger->debug("The latest WordPress core downloaded to ", [$pathArg]);
     }
 }

@@ -6,9 +6,9 @@ class Package
 {
     const string BASE_URL_CORE = 'https://wordpress.org';
 
-    public function getCore(string $destinationPath): void
+    public function getCore(string $destinationPath, string $version = null): void
     {
-        $url = self::BASE_URL_CORE . '/latest.zip';
+        $url = self::BASE_URL_CORE . '/' . (is_null($version) ? 'latest' : 'wordpress-' . $version) . '.tar.gz';
         $curl = curl_init($url);
         $file = fopen($destinationPath, 'wb');
         curl_setopt($curl, CURLOPT_FILE, $file);
