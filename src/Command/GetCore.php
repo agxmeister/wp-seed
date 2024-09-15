@@ -14,10 +14,11 @@ readonly class GetCore
 
     public function __invoke(CommandCall $input): void
     {
-        $this->logger->debug("Download the latest WordPress core", [$input]);
+        $this->logger->debug("Download WordPress core", [$input]);
         [ , , $pathArg] = $input->args;
-        $version = $input->params['version'] ?? null;
+        $version = $input->params['--version'] ?? null;
+        $this->logger->debug("Use version", [$version ?? 'latest']);
         $this->package->getCore($pathArg, $version);
-        $this->logger->debug("The latest WordPress core downloaded to ", [$pathArg]);
+        $this->logger->debug("WordPress core downloaded to ", [$pathArg]);
     }
 }
