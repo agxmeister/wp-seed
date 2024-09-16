@@ -18,7 +18,8 @@ readonly class GetCore
         [ , , $pathArg] = $input->args;
         $version = $input->params['--version'] ?? null;
         $this->logger->debug("Use version", [$version ?? 'latest']);
-        $this->package->getCore($pathArg, $version);
+        $type = $input->params['--type'] ?? null;
+        $this->package->getCore($pathArg, $version, $type);
         $this->logger->debug("WordPress core downloaded to ", [$pathArg]);
     }
 }
