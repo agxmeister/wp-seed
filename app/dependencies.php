@@ -11,7 +11,7 @@ return function (ContainerBuilder $containerBuilder)
     $containerBuilder->addDefinitions([
         Logger::class => DI\factory(function () {
             $logger = new Logger('log');
-            $fileHandler = new StreamHandler('./main.log', Level::Debug);
+            $fileHandler = new StreamHandler('./dst/main.log', Level::Debug);
             $fileHandler->setFormatter(new LineFormatter());
             return $logger->pushHandler($fileHandler);
         }),

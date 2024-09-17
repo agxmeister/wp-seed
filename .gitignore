@@ -1,4 +1,6 @@
 /composer.lock
 /vendor/
+/dst/*
+!.gitkeep
 .idea
 .DS_Store
