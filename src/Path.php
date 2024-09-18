@@ -4,7 +4,7 @@ namespace Seed;
 
 readonly class Path
 {
-    public function getStructure($path): array|string
+    public function getStructure(string $path): array|string
     {
         if (is_file($path)) {
             return basename($path);
