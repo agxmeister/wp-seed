@@ -5,6 +5,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
+use Seed\Storage;
 
 return function (ContainerBuilder $containerBuilder)
 {
@@ -15,5 +16,6 @@ return function (ContainerBuilder $containerBuilder)
             $fileHandler->setFormatter(new LineFormatter());
             return $logger->pushHandler($fileHandler);
         }),
+        Storage::class => DI\factory(fn() => new Storage('/tmp/seed')),
     ]);
 };

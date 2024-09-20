@@ -5,7 +5,7 @@ namespace Seed;
 use PharData;
 use ZipArchive;
 
-class Package
+readonly class Package
 {
     const string TYPE_ZIP = 'zip';
     const string TYPE_GZIP = 'tar.gz';
@@ -13,11 +13,14 @@ class Package
     const string BASE_URL_CORE = 'https://wordpress.org';
     const string VERSION_LATEST = 'latest';
 
-    public function getCore(string $destinationPath, string $version = null, $type = null): void
+    public function __construct(private File $file)
+    {
+    }
+
+    public function getCore(string $filename, string $version = null, $type = null): void
     {
         $url = self::BASE_URL_CORE . '/' . (is_null($version) ? self::VERSION_LATEST : 'wordpress-' . $version) . '.' . ($type ?? self::TYPE_ZIP);
-        $file = new File(dirname($destinationPath));
-        $file->getByUrl($url, basename($destinationPath));
+        $this->file->getByUrl($url, $filename);
     }
 
     public function extract(string $sourcePath, string $destinationPath, $type = null): void
