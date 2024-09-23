@@ -17,6 +17,11 @@ class Filesystem extends Cli
         $this->runShellCommand("mkdir -p " . self::BASE_PATH);
     }
 
+    public function getBasePath(): string
+    {
+        return self::BASE_PATH;
+    }
+
     public function createFileStructure($paths): void
     {
         foreach (

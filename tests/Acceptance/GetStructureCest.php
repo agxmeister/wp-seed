@@ -35,7 +35,8 @@ class GetStructureCest
     {
         [$paths, $expected] = $example;
         $I->createFileStructure($paths);
-        $I->runShellCommand("./bin/seed get-structure /tmp/seed");
+        $basePath = $I->getBasePath();
+        $I->runShellCommand("./bin/seed get-structure $basePath");
         $structure = json_decode($I->grabShellOutput(), true);
         $I->assertEquals($expected, $structure);
     }

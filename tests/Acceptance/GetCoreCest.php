@@ -10,6 +10,7 @@ class GetCoreCest
     {
         $I->runShellCommand("./bin/seed get-core --filename=latest.zip");
         $I->seeResultCodeIs(0);
-        $I->runShellCommand('bash -c "ls -l /tmp/seed/latest.zip"');
+        $basePath = $I->getBasePath();
+        $I->runShellCommand("ls -l $basePath/latest.zip");
     }
 }
