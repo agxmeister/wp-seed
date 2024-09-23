@@ -31,7 +31,7 @@ class GetDifferentPathsCest
         [$pathsA, $pathsB, $expected] = $example;
         $I->createFileStructure($pathsA);
         $I->createFileStructure($pathsB);
-        $I->runShellCommand("./bin/seed get-different-paths /tmp/a /tmp/b");
+        $I->runShellCommand("./bin/seed get-different-paths /tmp/seed/a /tmp/seed/b");
         $structure = json_decode($I->grabShellOutput(), true);
         $I->assertEquals($expected, $structure);
     }

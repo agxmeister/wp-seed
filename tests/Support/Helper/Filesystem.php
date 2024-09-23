@@ -9,11 +9,12 @@ use Codeception\TestInterface;
 
 class Filesystem extends Cli
 {
-    const string BASE_PATH = '/tmp';
+    const string BASE_PATH = '/tmp/seed';
 
     public function _before(TestInterface $test): void
     {
-        $this->runShellCommand("rm -rf " . self::BASE_PATH . DIRECTORY_SEPARATOR . "*");
+        $this->runShellCommand("rm -rf " . self::BASE_PATH);
+        $this->runShellCommand("mkdir -p " . self::BASE_PATH);
     }
 
     public function createFileStructure($paths): void
