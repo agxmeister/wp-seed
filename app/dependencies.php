@@ -5,6 +5,8 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
+use Seed\File;
+use Seed\PackageFetcher;
 use Seed\Storage;
 
 return function (ContainerBuilder $containerBuilder)
@@ -17,5 +19,6 @@ return function (ContainerBuilder $containerBuilder)
             return $logger->pushHandler($fileHandler);
         }),
         Storage::class => DI\factory(fn() => new Storage('/tmp/seed')),
+        PackageFetcher::class => DI\autowire(File::class),
     ]);
 };

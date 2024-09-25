@@ -2,7 +2,7 @@
 
 namespace Seed;
 
-readonly class File
+readonly class File implements PackageFetcher
 {
     public function __construct(private Storage $storage)
     {
