@@ -5,10 +5,10 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
-use Seed\FakePackageFetcher;
-use Seed\File;
-use Seed\PackageFetcher;
 use Seed\Storage;
+use Seed\Downloader;
+use Seed\Http;
+use Seed\FakeHttp;
 
 return function (ContainerBuilder $containerBuilder)
 {
@@ -20,6 +20,6 @@ return function (ContainerBuilder $containerBuilder)
             return $logger->pushHandler($fileHandler);
         }),
         Storage::class => DI\factory(fn() => new Storage('/tmp/seed')),
-        PackageFetcher::class => getenv('TEST') !== 'true' ? DI\autowire(File::class) : DI\autowire(FakePackageFetcher::class),
+        Downloader::class => getenv('TEST') !== 'true' ? DI\autowire(Http::class) : DI\autowire(FakeHttp::class),
     ]);
 };
