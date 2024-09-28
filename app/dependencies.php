@@ -5,6 +5,7 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
+use Seed\GuzzleHttp;
 use Seed\Storage;
 use Seed\Downloader;
 use Seed\Http;
@@ -20,6 +21,8 @@ return function (ContainerBuilder $containerBuilder)
             return $logger->pushHandler($fileHandler);
         }),
         Storage::class => DI\factory(fn() => new Storage('/tmp/seed')),
-        Downloader::class => getenv('TEST') !== 'true' ? DI\autowire(Http::class) : DI\autowire(FakeHttp::class),
+        Downloader::class => !getenv('TEST')
+            ? DI\autowire(GuzzleHttp::class)
+            : DI\autowire(FakeHttp::class),
     ]);
 };
