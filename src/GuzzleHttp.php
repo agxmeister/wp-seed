@@ -4,11 +4,14 @@ namespace Seed;
 
 use GuzzleHttp\Client;
 
-class GuzzleHttp implements Downloader
+readonly class GuzzleHttp implements Downloader
 {
+    public function __construct(private Client $client)
+    {
+    }
+
     public function download(string $url, string $path): void
     {
-        $guzzle = new Client();
-        $guzzle->get($url, ['sink' => $path]);
+        $this->client->get($url, ['sink' => $path]);
     }
 }

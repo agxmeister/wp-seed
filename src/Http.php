@@ -2,7 +2,7 @@
 
 namespace Seed;
 
-class Http implements Downloader
+readonly class Http implements Downloader
 {
     public function download(string $url, string $path): void
     {
