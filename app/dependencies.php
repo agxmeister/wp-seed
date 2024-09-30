@@ -1,6 +1,11 @@
 <?php
 
 use DI\ContainerBuilder;
+use GuzzleHttp\Client as GuzzleHttpClient;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Psr7\Response;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
@@ -21,8 +26,18 @@ return function (ContainerBuilder $containerBuilder)
             return $logger->pushHandler($fileHandler);
         }),
         Storage::class => DI\factory(fn() => new Storage('/tmp/seed')),
-        Downloader::class => !getenv('TEST')
-            ? DI\autowire(GuzzleHttp::class)
-            : DI\autowire(FakeHttp::class),
+        GuzzleHttpClient::class => DI\factory(function () {
+            $handler = !getenv('TEST')
+                ? new CurlHandler()
+                : new MockHandler([
+                    new Response(200, [], ''),
+                    new Response(200, [], ''),
+                ]);
+            $handlerStack = HandlerStack::create($handler);
+            return new GuzzleHttpClient([
+                'handler' => $handlerStack,
+            ]);
+        }),
+        Downloader::class => DI\autowire(GuzzleHttp::class),
     ]);
 };

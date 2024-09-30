@@ -2,11 +2,11 @@
 
 namespace Seed;
 
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as GuzzleHttpClient;
 
 readonly class GuzzleHttp implements Downloader
 {
-    public function __construct(private Client $client)
+    public function __construct(private GuzzleHttpClient $client)
     {
     }
 
