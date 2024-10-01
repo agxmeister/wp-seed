@@ -1,6 +1,5 @@
 <?php
 
-use DI\ContainerBuilder;
 use GuzzleHttp\Client as GuzzleHttpClient;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\Handler\MockHandler;
@@ -16,28 +15,25 @@ use Seed\Downloader;
 use Seed\Http;
 use Seed\FakeHttp;
 
-return function (ContainerBuilder $containerBuilder)
-{
-    $containerBuilder->addDefinitions([
-        Logger::class => DI\factory(function () {
-            $logger = new Logger('log');
-            $fileHandler = new StreamHandler('./dst/main.log', Level::Debug);
-            $fileHandler->setFormatter(new LineFormatter());
-            return $logger->pushHandler($fileHandler);
-        }),
-        Storage::class => DI\factory(fn() => new Storage('/tmp/seed')),
-        GuzzleHttpClient::class => DI\factory(function () {
-            $handler = !getenv('TEST')
-                ? new CurlHandler()
-                : new MockHandler([
-                    new Response(200, [], ''),
-                    new Response(200, [], ''),
-                ]);
-            $handlerStack = HandlerStack::create($handler);
-            return new GuzzleHttpClient([
-                'handler' => $handlerStack,
+return [
+    Logger::class => DI\factory(function () {
+        $logger = new Logger('log');
+        $fileHandler = new StreamHandler('./dst/main.log', Level::Debug);
+        $fileHandler->setFormatter(new LineFormatter());
+        return $logger->pushHandler($fileHandler);
+    }),
+    Storage::class => DI\factory(fn() => new Storage('/tmp/seed')),
+    GuzzleHttpClient::class => DI\factory(function () {
+        $handler = !getenv('TEST')
+            ? new CurlHandler()
+            : new MockHandler([
+                new Response(200, [], ''),
+                new Response(200, [], ''),
             ]);
-        }),
-        Downloader::class => DI\autowire(GuzzleHttp::class),
-    ]);
-};
+        $handlerStack = HandlerStack::create($handler);
+        return new GuzzleHttpClient([
+            'handler' => $handlerStack,
+        ]);
+    }),
+    Downloader::class => DI\autowire(GuzzleHttp::class),
+];
