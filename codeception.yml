@@ -3,6 +3,10 @@ support_namespace: Support
 suites:
     unit:
         path: ./Unit
+        actor: UnitTester
+        modules:
+            enabled:
+                - Tests\Support\Helper\Di
     acceptance:
         path: ./Acceptance
         actor: AcceptanceTester
