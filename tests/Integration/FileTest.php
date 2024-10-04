@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Integration;
 
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
@@ -8,20 +8,23 @@ use DI;
 use Seed\Downloader;
 use Seed\File;
 use Seed\GuzzleHttp;
-
-use Tests\Support\UnitTester;
+use Tests\Support\IntegrationTester;
 
 class FileTest extends Unit
 {
-    protected UnitTester $tester;
+    protected IntegrationTester $tester;
 
     #[DataProvider('dataGetByUrl')]
     public function testGetByUrl($file, $expected): void
     {
         $container = $this->tester->getContainer();
-        $container->set(Downloader::class, DI\factory(fn() => $this->makeEmpty(GuzzleHttp::class)));
+        $container->set(Downloader::class, DI\factory(
+            fn() => $this->make(GuzzleHttp::class, ['download' => function () use ($expected) {
+                file_put_contents($expected, 'test');
+            }])
+        ));
         $path = $container->get(File::class)->getByUrl('https://wordpress.org/' . $file, $file);
-        $this->assertEquals($expected, $path);
+        $this->tester->runShellCommand("ls -l $path");
     }
 
     static public function dataGetByUrl(): array

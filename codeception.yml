@@ -7,6 +7,14 @@ suites:
         modules:
             enabled:
                 - Tests\Support\Helper\Di
+    integration:
+        path: ./Integration
+        actor: IntegrationTester
+        modules:
+            enabled:
+                - Tests\Support\Helper\Di
+                - Cli
+                - Tests\Support\Helper\Filesystem
     acceptance:
         path: ./Acceptance
         actor: AcceptanceTester
