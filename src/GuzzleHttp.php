@@ -12,6 +12,11 @@ readonly class GuzzleHttp implements Downloader
 
     public function download(string $url, string $path): void
     {
-        $this->client->get($url, ['sink' => $path]);
+        $this->client->get($url, [
+            'sink' => $path,
+            'headers' => [
+                'user-agent' => 'WpSeed/1.0',
+            ],
+        ]);
     }
 }
