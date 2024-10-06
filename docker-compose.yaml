@@ -8,3 +8,12 @@ services:
       - '9001:9001'
     volumes:
       - ./:/var/seed
+  nginx:
+    container_name: mirror
+    build:
+      context: ./docker
+      dockerfile: ./mirror.Dockerfile
+    ports:
+      - '8080:80'
+    volumes:
+      - ./data:/usr/share/nginx/html
