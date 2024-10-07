@@ -9,24 +9,30 @@ use Codeception\TestInterface;
 
 class Filesystem extends Cli
 {
-    const string BASE_PATH = '/tmp/seed';
+    const string BASE_PATH_TMP = '/tmp/seed';
+    const string BASE_PATH_PACKAGE = __DIR__ . '/../../../dst/packages';
 
     public function _before(TestInterface $test): void
     {
-        $this->runShellCommand("rm -rf " . self::BASE_PATH);
-        $this->runShellCommand("mkdir -p " . self::BASE_PATH);
+        $this->runShellCommand("rm -rf " . self::BASE_PATH_TMP);
+        $this->runShellCommand("mkdir -p " . self::BASE_PATH_TMP);
     }
 
-    public function getBasePath(): string
+    public function getBaseTmpPath(): string
     {
-        return self::BASE_PATH;
+        return self::BASE_PATH_TMP;
+    }
+
+    public function getBasePackagePath(): string
+    {
+        return self::BASE_PATH_PACKAGE;
     }
 
     public function createFileStructure($paths): void
     {
         foreach (
             array_map(
-                fn($path) => self::BASE_PATH . DIRECTORY_SEPARATOR . $path,
+                fn($path) => self::BASE_PATH_TMP . DIRECTORY_SEPARATOR . $path,
                 $paths
             ) as $path
         ) {

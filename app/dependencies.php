@@ -22,7 +22,7 @@ return [
         $fileHandler->setFormatter(new LineFormatter());
         return $logger->pushHandler($fileHandler);
     }),
-    Storage::class => DI\factory(fn() => new Storage('/tmp/seed')),
+    Storage::class => DI\factory(fn() => new Storage('./dst/packages')),
     GuzzleHttpClient::class => DI\factory(function () {
         $handler = !getenv('TEST')
             ? new CurlHandler()

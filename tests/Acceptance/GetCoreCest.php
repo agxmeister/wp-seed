@@ -10,7 +10,7 @@ class GetCoreCest
     {
         $I->runShellCommand("./bin/seed get-core --filename=latest.zip");
         $I->seeResultCodeIs(0);
-        $basePath = $I->getBasePath();
+        $basePath = $I->getBasePackagePath();
         $I->runShellCommand("ls -l $basePath/latest.zip");
     }
 
@@ -18,7 +18,7 @@ class GetCoreCest
     {
         $I->runShellCommand("./bin/seed get-core --version=5.9.10 --filename=wordpress-5.9.10.zip");
         $I->seeResultCodeIs(0);
-        $basePath = $I->getBasePath();
+        $basePath = $I->getBasePackagePath();
         $I->runShellCommand("ls -l $basePath/wordpress-5.9.10.zip");
     }
 }
