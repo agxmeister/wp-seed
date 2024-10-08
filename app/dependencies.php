@@ -10,6 +10,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
 use Seed\GuzzleHttp;
+use Seed\Package;
 use Seed\Storage;
 use Seed\Downloader;
 use Seed\Http;
@@ -22,7 +23,10 @@ return [
         $fileHandler->setFormatter(new LineFormatter());
         return $logger->pushHandler($fileHandler);
     }),
-    Storage::class => DI\factory(fn() => new Storage('./dst/packages')),
+    Package::class => DI\autowire()
+        ->constructor(baseUrl: 'https://wordpress.org'),
+    Storage::class => DI\autowire()
+        ->constructor(basePath: './dst/packages'),
     GuzzleHttpClient::class => DI\factory(function () {
         $handler = !getenv('TEST')
             ? new CurlHandler()
