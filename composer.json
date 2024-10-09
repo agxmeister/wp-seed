@@ -30,6 +30,7 @@
         }
     },
     "scripts": {
-        "test": "docker-compose run -e TEST=true --rm php codecept run"
+        "test": "docker-compose run -e TEST=true --rm php codecept run",
+        "test-ext": "docker-compose run --rm php codecept run"
     }
 }
