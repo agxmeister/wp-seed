@@ -1,10 +1,5 @@
 <?php
 
-use GuzzleHttp\Client as GuzzleHttpClient;
-use GuzzleHttp\Handler\CurlHandler;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
@@ -24,20 +19,8 @@ return [
         return $logger->pushHandler($fileHandler);
     }),
     Package::class => DI\autowire()
-        ->constructor(baseUrl: 'https://wordpress.org'),
+        ->constructor(baseUrl: !getenv('TEST') ? 'https://wordpress.org' : 'http://localhost:8080'),
     Storage::class => DI\autowire()
         ->constructor(basePath: './dst/packages'),
-    GuzzleHttpClient::class => DI\factory(function () {
-        $handler = !getenv('TEST')
-            ? new CurlHandler()
-            : new MockHandler([
-                new Response(200, [], ''),
-                new Response(200, [], ''),
-            ]);
-        $handlerStack = HandlerStack::create($handler);
-        return new GuzzleHttpClient([
-            'handler' => $handlerStack,
-        ]);
-    }),
     Downloader::class => DI\autowire(GuzzleHttp::class),
 ];
