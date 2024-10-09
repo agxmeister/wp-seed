@@ -2,6 +2,7 @@
 /vendor/
 /dst/*
 !/dst/packages
+/dst/packages/*
 !.gitkeep
 .idea
 .DS_Store
