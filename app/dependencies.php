@@ -4,8 +4,8 @@ use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
+use Seed\Catalog;
 use Seed\GuzzleHttp;
-use Seed\Package;
 use Seed\Storage;
 use Seed\Downloader;
 use Seed\Http;
@@ -18,7 +18,7 @@ return [
         $fileHandler->setFormatter(new LineFormatter());
         return $logger->pushHandler($fileHandler);
     }),
-    Package::class => DI\autowire()
+    Catalog::class => DI\autowire()
         ->constructor(baseUrl: !getenv('TEST') ? 'https://wordpress.org' : 'http://localhost:8080'),
     Storage::class => DI\autowire()
         ->constructor(basePath: './dst/packages'),

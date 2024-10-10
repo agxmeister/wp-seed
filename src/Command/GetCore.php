@@ -5,6 +5,8 @@ namespace Seed\Command;
 use Minicli\Command\CommandCall;
 use Monolog\Logger;
 use Seed\Package;
+use Seed\PackageType;
+use function DI\value;
 
 readonly class GetCore
 {
@@ -19,7 +21,14 @@ readonly class GetCore
         $version = $input->params['--version'] ?? null;
         $this->logger->debug("Use version...", [$version ?? 'latest']);
         $type = $input->params['--type'] ?? null;
-        $this->package->getCore($filename, $version, $type);
+        $this->package->getCore(
+            $filename,
+            $version,
+            array_reduce(
+                PackageType::cases(),
+                fn($acc, PackageType $case) => $case->value === $type ? $case : $acc,
+            ),
+        );
         $this->logger->debug("WordPress core downloaded", [$filename]);
     }
 }

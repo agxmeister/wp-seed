@@ -21,4 +21,12 @@ class GetCoreCest
         $basePath = $I->getBasePackagePath();
         $I->runShellCommand("ls -l $basePath/wordpress-5.9.10.zip");
     }
+
+    public function getLatestTypeTest(AcceptanceTester $I): void
+    {
+        $I->runShellCommand("./bin/seed get-core --filename=latest.zip --type=zip");
+        $I->seeResultCodeIs(0);
+        $basePath = $I->getBasePackagePath();
+        $I->runShellCommand("ls -l $basePath/latest.zip");
+    }
 }

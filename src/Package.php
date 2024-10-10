@@ -9,15 +9,14 @@ readonly class Package
 {
     const string TYPE_ZIP = 'zip';
     const string TYPE_GZIP = 'tar.gz';
-    const string VERSION_LATEST = 'latest';
 
-    public function __construct(private File $file, private string $baseUrl)
+    public function __construct(private Catalog $catalog, private File $file)
     {
     }
 
-    public function getCore(string $filename, string $version = null, $type = null): void
+    public function getCore(string $filename, string $version = null, PackageType $type = null): void
     {
-        $url = $this->baseUrl . '/' . (is_null($version) ? self::VERSION_LATEST : 'wordpress-' . $version) . '.' . ($type ?? self::TYPE_ZIP);
+        $url = $this->catalog->getCorePackageUrl($version, $type);
         $this->file->getByUrl($url, $filename);
     }
 
