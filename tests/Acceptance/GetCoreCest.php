@@ -2,31 +2,24 @@
 
 namespace Tests\Acceptance;
 
+use Codeception\Attribute\Examples;
+use Codeception\Example;
 use Tests\Support\AcceptanceTester;
 
 class GetCoreCest
 {
-    public function getLatestTest(AcceptanceTester $I): void
+    #[Examples(
+        ['./bin/seed get-core --filename=latest.zip', 'latest.zip'],
+        ['./bin/seed get-core --version=5.9.10 --filename=wordpress-5.9.10.zip', 'wordpress-5.9.10.zip'],
+        ['./bin/seed get-core --type=tar.gz --filename=latest.tar.gz', 'latest.tar.gz'],
+        ['./bin/seed get-core --version=5.9.10 --type=tar.gz --filename=wordpress-5.9.10.tar.gz', 'wordpress-5.9.10.tar.gz'],
+    )]
+    public function testGetCore(AcceptanceTester $I, Example $example): void
     {
-        $I->runShellCommand("./bin/seed get-core --filename=latest.zip");
+        [$command, $path] = $example;
+        $I->runShellCommand($command);
         $I->seeResultCodeIs(0);
         $basePath = $I->getBasePackagePath();
-        $I->runShellCommand("ls -l $basePath/latest.zip");
-    }
-
-    public function getVersionTest(AcceptanceTester $I): void
-    {
-        $I->runShellCommand("./bin/seed get-core --version=5.9.10 --filename=wordpress-5.9.10.zip");
-        $I->seeResultCodeIs(0);
-        $basePath = $I->getBasePackagePath();
-        $I->runShellCommand("ls -l $basePath/wordpress-5.9.10.zip");
-    }
-
-    public function getLatestTypeTest(AcceptanceTester $I): void
-    {
-        $I->runShellCommand("./bin/seed get-core --filename=latest.zip --type=zip");
-        $I->seeResultCodeIs(0);
-        $basePath = $I->getBasePackagePath();
-        $I->runShellCommand("ls -l $basePath/latest.zip");
+        $I->runShellCommand("ls -l $basePath/$path");
     }
 }
