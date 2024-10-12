@@ -14,10 +14,13 @@ readonly class Package
     {
     }
 
-    public function getCore(string $filename, string $version = null, PackageType $type = null): void
+    public function getCore(string $version = null, string $filename = null, PackageType $type = null): void
     {
         $url = $this->catalog->getCorePackageUrl($version, $type);
-        $this->file->getByUrl($url, $filename);
+        $this->file->getByUrl(
+            $url,
+            $filename ?? basename(parse_url($url, PHP_URL_PATH)),
+        );
     }
 
     public function extract(string $sourcePath, string $destinationPath, $type = null): void

@@ -22,8 +22,8 @@ readonly class GetCore
         $this->logger->debug("Use version...", [$version ?? 'latest']);
         $type = $input->params['--type'] ?? null;
         $this->package->getCore(
-            $filename,
             $version,
+            $filename,
             array_reduce(
                 PackageType::cases(),
                 fn($acc, PackageType $case) => $case->value === $type ? $case : $acc,

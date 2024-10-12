@@ -13,6 +13,8 @@ class GetCoreCest
         ['./bin/seed get-core --version=5.9.10 --filename=wordpress-5.9.10.zip', 'wordpress-5.9.10.zip'],
         ['./bin/seed get-core --type=tar.gz --filename=latest.tar.gz', 'latest.tar.gz'],
         ['./bin/seed get-core --version=5.9.10 --type=tar.gz --filename=wordpress-5.9.10.tar.gz', 'wordpress-5.9.10.tar.gz'],
+        ['./bin/seed get-core', 'latest.zip'],
+        ['./bin/seed get-core --version=5.9.10', 'wordpress-5.9.10.zip'],
     )]
     public function testGetCore(AcceptanceTester $I, Example $example): void
     {
