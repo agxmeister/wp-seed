@@ -12,21 +12,21 @@ class CatalogTest extends Unit
     #[DataProvider('dataGetCorePackageUrl')]
     public function testGetCorePackageUrl($version, $type, $expected): void
     {
-        $catalog = new Catalog('https://wordpress.org');
+        $catalog = new Catalog('https://wordpress.org', 'https://downloads.wordpress.org');
         $this->assertEquals($expected, $catalog->getCorePackageUrl($version, $type));
     }
 
     #[DataProvider('dataGetPluginPackageUrl')]
     public function testGetPluginPackageUrl($name, $version, $expected): void
     {
-        $catalog = new Catalog('https://wordpress.org');
+        $catalog = new Catalog('https://wordpress.org', 'https://downloads.wordpress.org');
         $this->assertEquals($expected, $catalog->getPluginPackageUrl($name, $version));
     }
 
     #[DataProvider('dataGetThemePackageUrl')]
     public function testGetThemePackageUrl($name, $version, $expected): void
     {
-        $catalog = new Catalog('https://wordpress.org');
+        $catalog = new Catalog('https://wordpress.org', 'https://downloads.wordpress.org');
         $this->assertEquals($expected, $catalog->getThemePackageUrl($name, $version));
     }
 
@@ -44,16 +44,16 @@ class CatalogTest extends Unit
     static public function dataGetPluginPackageUrl(): array
     {
         return [
-            ['ultimate-addons-for-gutenberg', null, 'https://wordpress.org/plugin/ultimate-addons-for-gutenberg.zip'],
-            ['ultimate-addons-for-gutenberg', '2.3.4', 'https://wordpress.org/plugin/ultimate-addons-for-gutenberg.2.3.4.zip'],
+            ['ultimate-addons-for-gutenberg', null, 'https://downloads.wordpress.org/plugin/ultimate-addons-for-gutenberg.zip'],
+            ['ultimate-addons-for-gutenberg', '2.3.4', 'https://downloads.wordpress.org/plugin/ultimate-addons-for-gutenberg.2.3.4.zip'],
         ];
     }
 
     static public function dataGetThemePackageUrl(): array
     {
         return [
-            ['astra', null, 'https://wordpress.org/theme/astra.zip'],
-            ['astra', '4.8.3', 'https://wordpress.org/theme/astra.4.8.3.zip'],
+            ['astra', null, 'https://downloads.wordpress.org/theme/astra.zip'],
+            ['astra', '4.8.3', 'https://downloads.wordpress.org/theme/astra.4.8.3.zip'],
         ];
     }
 }

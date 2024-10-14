@@ -19,7 +19,10 @@ return [
         return $logger->pushHandler($fileHandler);
     }),
     Catalog::class => DI\autowire()
-        ->constructor(baseUrl: !getenv('TEST') ? 'https://wordpress.org' : 'http://localhost:8080'),
+        ->constructor(
+            baseCoreUrl: !getenv('TEST') ? 'https://wordpress.org' : 'http://localhost:8080',
+            baseAssetUrl: !getenv('TEST') ? 'https://downloads.wordpress.org' : 'http://localhost:8080',
+        ),
     Storage::class => DI\autowire()
         ->constructor(basePath: './dst/packages'),
     Downloader::class => DI\autowire(GuzzleHttp::class),
