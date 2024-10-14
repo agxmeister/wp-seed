@@ -19,6 +19,16 @@ readonly class Catalog
 
     public function getPluginPackageUrl(string $name, string $version = null): string
     {
-        return $this->baseUrl . '/plugin/' . $name . ($version ? '.' . $version : '') . '.zip';
+        return $this->getAssetPackageUrl(AssetType::TYPE_PLUGIN, $name, $version);
+    }
+
+    public function getThemePackageUrl(string $name, string $version = null): string
+    {
+        return $this->getAssetPackageUrl(AssetType::TYPE_THEME, $name, $version);
+    }
+
+    protected function getAssetPackageUrl(AssetType $type, string $name, string $version = null): string
+    {
+        return $this->baseUrl . '/' . $type->value . '/' . $name . ($version ? '.' . $version : '') . '.zip';
     }
 }

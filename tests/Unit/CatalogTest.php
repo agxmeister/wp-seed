@@ -23,6 +23,13 @@ class CatalogTest extends Unit
         $this->assertEquals($expected, $catalog->getPluginPackageUrl($name, $version));
     }
 
+    #[DataProvider('dataGetThemePackageUrl')]
+    public function testGetThemePackageUrl($name, $version, $expected): void
+    {
+        $catalog = new Catalog('https://wordpress.org');
+        $this->assertEquals($expected, $catalog->getThemePackageUrl($name, $version));
+    }
+
     static public function dataGetCorePackageUrl(): array
     {
         return [
@@ -39,6 +46,14 @@ class CatalogTest extends Unit
         return [
             ['ultimate-addons-for-gutenberg', null, 'https://wordpress.org/plugin/ultimate-addons-for-gutenberg.zip'],
             ['ultimate-addons-for-gutenberg', '2.3.4', 'https://wordpress.org/plugin/ultimate-addons-for-gutenberg.2.3.4.zip'],
+        ];
+    }
+
+    static public function dataGetThemePackageUrl(): array
+    {
+        return [
+            ['astra', null, 'https://wordpress.org/theme/astra.zip'],
+            ['astra', '4.8.3', 'https://wordpress.org/theme/astra.4.8.3.zip'],
         ];
     }
 }
