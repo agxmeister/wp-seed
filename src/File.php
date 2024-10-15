@@ -4,14 +4,12 @@ namespace Seed;
 
 readonly class File
 {
-    public function __construct(private Downloader $downloader, private Storage $storage)
+    public function __construct(private Downloader $downloader)
     {
     }
 
-    public function getByUrl(string $url, string $fileName): string
+    public function getByUrl(string $url, string $destinationPath): void
     {
-        $destinationPath = $this->storage->getPath($fileName);
         $this->downloader->download($url, $destinationPath);
-        return $destinationPath;
     }
 }

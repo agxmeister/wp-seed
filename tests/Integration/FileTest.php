@@ -8,6 +8,7 @@ use DI;
 use Seed\Downloader;
 use Seed\File;
 use Seed\GuzzleHttp;
+use Seed\Storage;
 use Tests\Support\IntegrationTester;
 
 class FileTest extends Unit
@@ -23,7 +24,8 @@ class FileTest extends Unit
                 $this->tester->runShellCommand("touch $path");
             }])
         ));
-        $path = $container->get(File::class)->getByUrl('https://wordpress.org/' . $file, $file);
+        $path = $container->get(Storage::class)->getPath($file);
+        $container->get(File::class)->getByUrl('https://wordpress.org/' . $file, $path);
         $this->tester->runShellCommand("ls -l $path");
     }
 
