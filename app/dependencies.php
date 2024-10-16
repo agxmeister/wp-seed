@@ -5,11 +5,9 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
 use Seed\Catalog;
-use Seed\GuzzleHttp;
+use Seed\Downloader\Downloader;
+use Seed\Downloader\GuzzleHttp;
 use Seed\Storage;
-use Seed\Downloader;
-use Seed\Http;
-use Seed\FakeHttp;
 
 return [
     Logger::class => DI\factory(function () {

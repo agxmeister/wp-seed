@@ -2,6 +2,8 @@
 
 namespace Seed;
 
+use Seed\Downloader\Downloader;
+
 readonly class File
 {
     public function __construct(private Downloader $downloader)

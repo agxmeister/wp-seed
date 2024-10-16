@@ -1,6 +1,6 @@
 <?php
 
-namespace Seed;
+namespace Seed\Downloader;
 
 readonly class FakeHttp implements Downloader
 {

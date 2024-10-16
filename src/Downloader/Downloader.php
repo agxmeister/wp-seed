@@ -1,6 +1,6 @@
 <?php
 
-namespace Seed;
+namespace Seed\Downloader;
 
 interface Downloader
 {

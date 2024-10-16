@@ -5,9 +5,9 @@ namespace Integration;
 use Codeception\Attribute\DataProvider;
 use Codeception\Test\Unit;
 use DI;
-use Seed\Downloader;
+use Seed\Downloader\Downloader;
+use Seed\Downloader\GuzzleHttp;
 use Seed\File;
-use Seed\GuzzleHttp;
 use Seed\Storage;
 use Tests\Support\IntegrationTester;
 
