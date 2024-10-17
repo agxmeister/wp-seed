@@ -9,6 +9,7 @@
     "require": {
         "ext-curl": "*",
         "ext-zip": "*",
+        "ext-mysqli": "*",
         "minicli/minicli": "^4.2",
         "php-di/php-di": "^7.0",
         "monolog/monolog": "^3.7",
