@@ -17,3 +17,10 @@ services:
       - '8080:80'
     volumes:
       - ./dst/packages:/usr/share/nginx/html
+  mysql:
+    container_name: mysql
+    build:
+      context: ./docker
+      dockerfile: ./mysql.Dockerfile
+    ports:
+      - '3306:3306'
