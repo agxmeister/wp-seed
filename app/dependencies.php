@@ -7,6 +7,7 @@ use Monolog\Logger;
 use Seed\Catalog;
 use Seed\Downloader\Downloader;
 use Seed\Downloader\GuzzleHttp;
+use Seed\Mysql;
 use Seed\Storage;
 
 return [
@@ -24,4 +25,10 @@ return [
     Storage::class => DI\autowire()
         ->constructor(basePath: './dst/packages'),
     Downloader::class => DI\autowire(GuzzleHttp::class),
+    Mysql::class => DI\autowire()->constructor(
+        host: 'mysql',
+        port: null,
+        username: 'root',
+        password: null,
+    ),
 ];
