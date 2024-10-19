@@ -14,9 +14,15 @@ readonly class CreateDatabase
 
     public function __invoke(CommandCall $input): void
     {
-        $this->logger->debug("Extract the package", [$input]);
+        $this->logger->debug("Create database", [$input]);
         $database = $input->params['--database'] ?? null;
+        $username = $input->params['--username'] ?? null;
+        $password = $input->params['--password'] ?? null;
         $this->mysql->createDatabase($database);
         $this->logger->debug("Database created", [$database]);
+        if (!is_null($username) && !is_null($password)) {
+            $this->mysql->createDatabaseUser($username, $password, $database);
+            $this->logger->debug("Database user created", [$username]);
+        }
     }
 }
