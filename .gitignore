@@ -2,7 +2,9 @@
 /vendor/
 /dst/*
 !/dst/packages
+!/dst/web
 /dst/packages/*
+/dst/web/*
 !.gitkeep
 .idea
 .DS_Store
