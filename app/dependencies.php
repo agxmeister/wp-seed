@@ -5,6 +5,7 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
 use Seed\Catalog;
+use Seed\Destination;
 use Seed\Downloader\Downloader;
 use Seed\Downloader\GuzzleHttp;
 use Seed\Mysql;
@@ -24,6 +25,8 @@ return [
         ),
     Storage::class => DI\autowire()
         ->constructor(basePath: './dst/packages'),
+    Destination::class => DI\autowire()
+        ->constructor(basePath: './dst/web'),
     Downloader::class => DI\autowire(GuzzleHttp::class),
     Mysql::class => DI\autowire()->constructor(
         host: 'mysql',
