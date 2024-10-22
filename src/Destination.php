@@ -12,4 +12,10 @@ readonly class Destination
     {
         return $this->basePath;
     }
+
+    public function cleanup($path): void
+    {
+        $path = $this->basePath . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . 'wordpress';
+        exec("rm -rf $path");
+    }
 }

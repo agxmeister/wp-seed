@@ -17,8 +17,12 @@ readonly class Install
     {
         $this->logger->debug("Install WordPress", [$input]);
         $version = $input->params['--version'] ?? null;
+        $cleanup = in_array('--cleanup', $input->flags);
         $corePackagePath = $this->package->getCore($version);
         $destinationPath = $this->destination->getBasePath();
+        if ($cleanup) {
+            $this->destination->cleanup('.');
+        }
         $this->package->extract($corePackagePath, $destinationPath);
         $this->logger->debug("WordPress installed to ", [$destinationPath]);
     }
