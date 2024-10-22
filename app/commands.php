@@ -7,6 +7,7 @@ use Seed\Command\Extract;
 use Seed\Command\GetCore;
 use Seed\Command\GetDifferentPaths;
 use Seed\Command\GetStructure;
+use Seed\Command\Install;
 
 return function (App $app, Container $container) {
     $app->registerCommand('get-different-paths', $container->get(GetDifferentPaths::class));
@@ -14,4 +15,5 @@ return function (App $app, Container $container) {
     $app->registerCommand('get-core', $container->get(GetCore::class));
     $app->registerCommand('extract', $container->get(Extract::class));
     $app->registerCommand('create-database', $container->get(CreateDatabase::class));
+    $app->registerCommand('install', $container->get(Install::class));
 };
