@@ -16,12 +16,13 @@ readonly class Install
     public function __invoke(CommandCall $input): void
     {
         $this->logger->debug("Install WordPress", [$input]);
+        $name = $input->params['--name'] ?? null;
         $version = $input->params['--version'] ?? null;
-        $cleanup = in_array('--cleanup', $input->flags);
+        $isCleanup = in_array('--cleanup', $input->flags);
         $corePackagePath = $this->package->getCore($version);
-        $destinationPath = $this->destination->getBasePath();
-        if ($cleanup) {
-            $this->destination->cleanup('.');
+        $destinationPath = $this->destination->getPath($name);
+        if ($isCleanup) {
+            $this->destination->cleanup($name);
         }
         $this->package->extract($corePackagePath, $destinationPath);
         $this->logger->debug("WordPress installed to ", [$destinationPath]);
