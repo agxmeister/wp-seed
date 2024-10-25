@@ -26,6 +26,7 @@ readonly class Install
         }
         $this->package->extract($corePackagePath, $destinationPath);
         $this->destination->move($name);
+        $this->destination->configure($name, 'test', 'test', 'test');
         $this->logger->debug("WordPress installed to ", [$destinationPath]);
     }
 }

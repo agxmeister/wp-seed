@@ -32,4 +32,23 @@ readonly class Destination
         $pathToRemove = $this->basePath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'wordpress';
         exec("rm -rf $pathToRemove");
     }
+
+    public function configure($name, $database, $username, $password): void
+    {
+        $pathSrc = $this->basePath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'wp-config-sample.php';
+        $pathDst = $this->basePath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'wp-config.php';
+        file_put_contents(
+            $pathDst,
+            str_replace([
+                'database_name_here',
+                'username_here',
+                'password_here',
+            ], [
+                $database,
+                $username,
+                $password,
+            ], file_get_contents($pathSrc))
+        );
+        exec("rm -f $pathSrc");
+    }
 }
