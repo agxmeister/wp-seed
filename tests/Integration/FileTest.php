@@ -24,7 +24,7 @@ class FileTest extends Unit
                 $this->tester->runShellCommand("touch $path");
             }])
         ));
-        $path = $container->get(Storage::class)->getPath($file);
+        $path = $container->get(Storage::class)->getPackagePath($file);
         $container->get(File::class)->getByUrl('https://wordpress.org/' . $file, $path);
         $this->tester->runShellCommand("ls -l $path");
     }

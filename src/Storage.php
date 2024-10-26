@@ -8,8 +8,8 @@ readonly class Storage
     {
     }
 
-    public function getPath(string $fileName): string
+    public function getPackagePath(string $name): string
     {
-        return $this->basePath . DIRECTORY_SEPARATOR . $fileName;
+        return $this->basePath . DIRECTORY_SEPARATOR . $name;
     }
 }

@@ -10,6 +10,7 @@ use Seed\Downloader\Downloader;
 use Seed\Downloader\GuzzleHttp;
 use Seed\Mysql;
 use Seed\Storage;
+use Seed\Tools;
 use Seed\WpCli;
 
 return [
@@ -24,10 +25,9 @@ return [
             baseCoreUrl: !getenv('TEST') ? 'https://wordpress.org' : 'http://localhost:8080',
             baseAssetUrl: !getenv('TEST') ? 'https://downloads.wordpress.org' : 'http://localhost:8080',
         ),
-    Storage::class => DI\autowire()
-        ->constructor(basePath: './dst/packages'),
-    Destination::class => DI\autowire()
-        ->constructor(basePath: './dst'),
+    Tools::class => DI\autowire()->constructor(basePath: './dst/tools'),
+    Storage::class => DI\autowire()->constructor(basePath: './dst/packages'),
+    Destination::class => DI\autowire()->constructor(basePath: './dst/web'),
     Downloader::class => DI\autowire(GuzzleHttp::class),
     Mysql::class => DI\autowire()->constructor(
         host: 'mysql',

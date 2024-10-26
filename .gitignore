@@ -1,7 +1,9 @@
 /vendor/
 /dst/*
+!/dst/tools
 !/dst/packages
 !/dst/web
+/dst/tools/*
 /dst/packages/*
 /dst/web/*
 !.gitkeep

@@ -20,7 +20,7 @@ readonly class Install
         $version = $input->params['--version'] ?? null;
         $isCleanup = in_array('--cleanup', $input->flags);
         $corePackagePath = $this->package->getCore($version);
-        $destinationPath = $this->destination->getWebPath($name);
+        $destinationPath = $this->destination->getSitePath($name);
         if ($isCleanup) {
             $this->destination->cleanup($name);
         }
