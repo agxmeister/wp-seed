@@ -8,14 +8,14 @@ readonly class Destination
     {
     }
 
-    public function getBasePath(): string
+    public function getWebPath($name): string
     {
-        return $this->basePath;
+        return $this->basePath . DIRECTORY_SEPARATOR . 'web' . DIRECTORY_SEPARATOR . $name;
     }
 
-    public function getPath($name): string
+    public function getWpCliPath(): string
     {
-        return $this->basePath . DIRECTORY_SEPARATOR . $name;
+        return $this->basePath . DIRECTORY_SEPARATOR . 'wp-cli.phar';
     }
 
     public function cleanup($name): void

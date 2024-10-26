@@ -8,8 +8,10 @@ use Seed\Command\GetCore;
 use Seed\Command\GetDifferentPaths;
 use Seed\Command\GetStructure;
 use Seed\Command\Install;
+use Seed\Command\Utils;
 
 return function (App $app, Container $container) {
+    $app->registerCommand('utils', $container->get(Utils::class));
     $app->registerCommand('get-different-paths', $container->get(GetDifferentPaths::class));
     $app->registerCommand('get-structure', $container->get(GetStructure::class));
     $app->registerCommand('get-core', $container->get(GetCore::class));

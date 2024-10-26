@@ -10,6 +10,7 @@ use Seed\Downloader\Downloader;
 use Seed\Downloader\GuzzleHttp;
 use Seed\Mysql;
 use Seed\Storage;
+use Seed\WpCli;
 
 return [
     Logger::class => DI\factory(function () {
@@ -26,7 +27,7 @@ return [
     Storage::class => DI\autowire()
         ->constructor(basePath: './dst/packages'),
     Destination::class => DI\autowire()
-        ->constructor(basePath: './dst/web'),
+        ->constructor(basePath: './dst'),
     Downloader::class => DI\autowire(GuzzleHttp::class),
     Mysql::class => DI\autowire()->constructor(
         host: 'mysql',
@@ -34,4 +35,7 @@ return [
         username: 'root',
         password: null,
     ),
+    WpCli::class => DI\autowire()->constructor(
+        url: 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
+    )
 ];
