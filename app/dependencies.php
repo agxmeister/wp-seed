@@ -11,7 +11,7 @@ use Seed\Downloader\GuzzleHttp;
 use Seed\Mysql;
 use Seed\Storage;
 use Seed\Tools;
-use Seed\WpCli;
+use Seed\Setup;
 
 return [
     Logger::class => DI\factory(function () {
@@ -35,7 +35,7 @@ return [
         username: 'root',
         password: null,
     ),
-    WpCli::class => DI\autowire()->constructor(
-        url: 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
+    Setup::class => DI\autowire()->constructor(
+        wpCliUrl: 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar',
     )
 ];

@@ -4,11 +4,11 @@ namespace Seed\Command;
 
 use Minicli\Command\CommandCall;
 use Monolog\Logger;
-use Seed\WpCli;
+use Seed\Setup;
 
 readonly class Utils
 {
-    public function __construct(private Logger $logger, private WpCli $wpCli)
+    public function __construct(private Logger $logger, private Setup $wpCli)
     {
     }
 
@@ -23,7 +23,7 @@ readonly class Utils
     private function installWpCli(): void
     {
         $this->logger->debug("Install WP-CLI");
-        $this->wpCli->install();
+        $this->wpCli->getWpCli();
         $this->logger->debug("WP CLI installed");
     }
 }
