@@ -18,10 +18,11 @@ readonly class CreateDatabase
         $database = $input->params['--database'] ?? null;
         $username = $input->params['--username'] ?? null;
         $password = $input->params['--password'] ?? null;
+        $hostname = $input->params['--hostname'] ?? null;
         $this->mysql->createDatabase($database);
         $this->logger->debug("Database created", [$database]);
         if (!is_null($username) && !is_null($password)) {
-            $this->mysql->createDatabaseUser($username, $password, $database);
+            $this->mysql->createDatabaseUser($database, $username, $password, $hostname);
             $this->logger->debug("Database user created", [$username]);
         }
     }

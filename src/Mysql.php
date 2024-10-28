@@ -17,11 +17,11 @@ readonly class Mysql
         $this->getConnection()->query("CREATE DATABASE `$database`");
     }
 
-    public function createDatabaseUser(string $username, string $password, string $database): void
+    public function createDatabaseUser(string $database, string $username, string $password, ?string $hostname = '%'): void
     {
         $connection = $this->getConnection();
-        $connection->query("CREATE USER '$username'@'localhost' IDENTIFIED BY '$password'");
-        $connection->query("GRANT ALL ON `$database`.* TO '$username'@'localhost'");
+        $connection->query("CREATE USER '$username'@'$hostname' IDENTIFIED BY '$password'");
+        $connection->query("GRANT ALL ON `$database`.* TO '$username'@'$hostname'");
     }
 
     private function getConnection(): mysqli
