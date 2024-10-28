@@ -28,7 +28,7 @@ readonly class Destination
         exec("rm -rf $pathToRemove");
     }
 
-    public function configure($name, $database, $username, $password): void
+    public function configure($name, $database, $username, $password, $hostname): void
     {
         $pathSrc = $this->basePath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'wp-config-sample.php';
         $pathDst = $this->basePath . DIRECTORY_SEPARATOR . $name . DIRECTORY_SEPARATOR . 'wp-config.php';
@@ -38,10 +38,12 @@ readonly class Destination
                 'database_name_here',
                 'username_here',
                 'password_here',
+                'localhost'
             ], [
                 $database,
                 $username,
                 $password,
+                $hostname,
             ], file_get_contents($pathSrc))
         );
         exec("rm -f $pathSrc");
