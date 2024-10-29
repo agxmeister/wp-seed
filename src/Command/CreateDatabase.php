@@ -4,6 +4,8 @@ namespace Seed\Command;
 
 use Minicli\Command\CommandCall;
 use Monolog\Logger;
+use Seed\Model\Database;
+use Seed\Model\DatabaseUser;
 use Seed\Mysql;
 
 readonly class CreateDatabase
@@ -19,11 +21,10 @@ readonly class CreateDatabase
         $username = $input->params['--username'] ?? null;
         $password = $input->params['--password'] ?? null;
         $hostname = $input->params['--hostname'] ?? null;
-        $this->mysql->createDatabase($database);
+        $this->mysql->createDatabase(
+            new Database($database),
+            new DatabaseUser($username, $password, $hostname ?: '%'),
+        );
         $this->logger->debug("Database created", [$database]);
-        if (!is_null($username) && !is_null($password)) {
-            $this->mysql->createDatabaseUser($database, $username, $password, $hostname);
-            $this->logger->debug("Database user created", [$username]);
-        }
     }
 }

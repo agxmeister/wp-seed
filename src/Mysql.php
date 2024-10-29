@@ -3,6 +3,8 @@
 namespace Seed;
 
 use mysqli;
+use Seed\Model\Database;
+use Seed\Model\DatabaseUser;
 
 readonly class Mysql
 {
@@ -12,16 +14,18 @@ readonly class Mysql
     {
     }
 
-    public function createDatabase(string $database): void
-    {
-        $this->getConnection()->query("CREATE DATABASE `$database`");
-    }
-
-    public function createDatabaseUser(string $database, string $username, string $password, ?string $hostname = '%'): void
+    public function createDatabase(Database $database, ?DatabaseUser $user): void
     {
         $connection = $this->getConnection();
-        $connection->query("CREATE USER '$username'@'$hostname' IDENTIFIED BY '$password'");
-        $connection->query("GRANT ALL ON `$database`.* TO '$username'@'$hostname'");
+        $connection->begin_transaction();
+        $connection->query("DROP DATABASE IF EXISTS `$database->name`");
+        $connection->query("CREATE DATABASE `$database->name`");
+        if (!is_null($user)) {
+            $connection->query("DROP USER IF EXISTS `$user->name`");
+            $connection->query("CREATE USER '$user->name'@'$user->host' IDENTIFIED BY '$user->password'");
+            $connection->query("GRANT ALL ON `$database->name`.* TO '$user->name'@'$user->host'");
+        }
+        $connection->commit();
     }
 
     private function getConnection(): mysqli
