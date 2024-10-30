@@ -28,6 +28,21 @@ readonly class Mysql
         $connection->commit();
     }
 
+    public function getDatabaseDump(Database $database): string
+    {
+        $connection = $this->getConnection();
+        $connection->select_db($database->name);
+        $tablesData = $connection->query("SHOW TABLES")->fetch_all();
+        $dump = '';
+        foreach ($tablesData as $tablesDataItem) {
+            [$tableName] = $tablesDataItem;
+            $createTableData = $connection->query("SHOW CREATE TABLE `$tableName`")->fetch_all();
+            [, $query] = current($createTableData);
+            $dump .= $query . "\r\n\r\n";
+        }
+        return $dump;
+    }
+
     private function getConnection(): mysqli
     {
         if (!isset($this->connection)) {
