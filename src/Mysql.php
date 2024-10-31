@@ -37,8 +37,19 @@ readonly class Mysql
         foreach ($tablesData as $tablesDataItem) {
             [$tableName] = $tablesDataItem;
             $createTableData = $connection->query("SHOW CREATE TABLE `$tableName`")->fetch_all();
-            [, $query] = current($createTableData);
-            $dump .= $query . "\r\n\r\n";
+            [, $createTableQuery] = current($createTableData);
+            $dump .= $createTableQuery . "\r\n\r\n";
+
+            $entriesData = $connection->query("SELECT * FROM `$tableName`")->fetch_all(MYSQLI_ASSOC);
+            if (sizeof($entriesData) > 0) {
+                foreach ($entriesData as $entryData) {
+                    $fields = implode(', ', array_keys($entryData));
+                    $values = '"' . implode('", "', array_map(fn($value) => $connection->real_escape_string($value), array_values($entryData))) . '"';
+                    $insertRowQuery = "INSERT INTO `$tableName` ($fields) VALUES ($values)";
+                    $dump .= $insertRowQuery . "\r\n";
+                }
+                $dump .= "\r\n";
+            }
         }
         return $dump;
     }
