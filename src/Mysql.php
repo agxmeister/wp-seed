@@ -8,6 +8,8 @@ use Seed\Model\DatabaseUser;
 
 readonly class Mysql
 {
+    const DUMP_VOLUME_TABLES = 'tables';
+
     private mysqli $connection;
 
     public function __construct(private ?string $host, private ?int $port, private ?string $username, private ?string $password)
@@ -33,12 +35,19 @@ readonly class Mysql
         $connection = $this->getConnection();
         $connection->select_db($database->name);
         $tablesData = $connection->query("SHOW TABLES")->fetch_all();
-        $dump = '';
+        $databaseDump = [
+            self::DUMP_VOLUME_TABLES => [],
+        ];
         foreach ($tablesData as $tablesDataItem) {
             [$tableName] = $tablesDataItem;
             $createTableData = $connection->query("SHOW CREATE TABLE `$tableName`")->fetch_all();
             [, $createTableQuery] = current($createTableData);
-            $dump .= $createTableQuery . "\r\n\r\n";
+
+            $databaseTableDump = [
+                'name' => $tableName,
+                'query' => $createTableQuery,
+                'entries' => [],
+            ];
 
             $entriesData = $connection->query("SELECT * FROM `$tableName`")->fetch_all(MYSQLI_ASSOC);
             if (sizeof($entriesData) > 0) {
@@ -46,12 +55,15 @@ readonly class Mysql
                     $fields = implode(', ', array_keys($entryData));
                     $values = '"' . implode('", "', array_map(fn($value) => $connection->real_escape_string($value), array_values($entryData))) . '"';
                     $insertRowQuery = "INSERT INTO `$tableName` ($fields) VALUES ($values)";
-                    $dump .= $insertRowQuery . "\r\n";
+                    $databaseTableDump['entries'][] = [
+                        'query' => $insertRowQuery,
+                    ];
                 }
-                $dump .= "\r\n";
             }
+
+            $databaseDump[self::DUMP_VOLUME_TABLES][] = $databaseTableDump;
         }
-        return $dump;
+        return json_encode($databaseDump);
     }
 
     private function getConnection(): mysqli
