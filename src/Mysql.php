@@ -43,8 +43,25 @@ readonly class Mysql
             $createTableData = $connection->query("SHOW CREATE TABLE `$tableName`")->fetch_all();
             [, $createTableQuery] = current($createTableData);
 
+            $describeTableData = $connection->query("DESCRIBE `$tableName`")->fetch_all();
+            $fields = [];
+            foreach ($describeTableData as $describeTableDataItem) {
+                [$field, $type, $null, $key, $default, $extra] = $describeTableDataItem;
+                $fields[] = [
+                    'field' => $field,
+                    'type' => $type,
+                    'default' => $default,
+                    'null' => $null === 'YES',
+                    'primary' => $key === 'PRI',
+                    'unique' => $key === 'UNI',
+                    'key' => $key === 'MUL',
+                    'auto' => $extra === 'auto_increment',
+                ];
+            }
+
             $databaseTableDump = [
                 'name' => $tableName,
+                'fields' => $fields,
                 'query' => $createTableQuery,
                 'entries' => [],
             ];
