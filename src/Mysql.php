@@ -83,6 +83,21 @@ readonly class Mysql
         return json_encode($databaseDump);
     }
 
+    public function restoreDatabaseDump(Database $database, string $dumpFilePath): void
+    {
+        $databaseDump = json_decode(file_get_contents($dumpFilePath), true);
+
+        $connection = $this->getConnection();
+        $connection->select_db($database->name);
+
+        foreach ($databaseDump[self::DUMP_VOLUME_TABLES] as $tableDump) {
+            $connection->query($tableDump['query']);
+            foreach ($tableDump['entries'] as $entryDump) {
+                $connection->query($entryDump['query']);
+            }
+        }
+    }
+
     private function getConnection(): mysqli
     {
         if (!isset($this->connection)) {

@@ -9,6 +9,7 @@ use Seed\Command\GetDatabaseDump;
 use Seed\Command\GetDifferentPaths;
 use Seed\Command\GetStructure;
 use Seed\Command\Install;
+use Seed\Command\RestoreDatabaseDump;
 use Seed\Command\Utils;
 use Seed\Command\WpCliGate;
 
@@ -20,6 +21,7 @@ return function (App $app, Container $container) {
     $app->registerCommand('extract', $container->get(Extract::class));
     $app->registerCommand('create-database', $container->get(CreateDatabase::class));
     $app->registerCommand('get-database-dump', $container->get(GetDatabaseDump::class));
+    $app->registerCommand('restore-database-dump', $container->get(RestoreDatabaseDump::class));
     $app->registerCommand('install', $container->get(Install::class));
     $app->registerCommand('wp-cli-gate', $container->get(WpCliGate::class));
 };
