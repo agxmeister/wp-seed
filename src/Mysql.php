@@ -91,6 +91,8 @@ readonly class Mysql
         $connection->select_db($database->name);
 
         foreach ($databaseDump[self::DUMP_VOLUME_TABLES] as $tableDump) {
+            $tableName = $tableDump['name'];
+            $connection->query("DROP TABLE IF EXISTS `$tableName`");
             $connection->query($tableDump['query']);
             foreach ($tableDump['entries'] as $entryDump) {
                 $connection->query($entryDump['query']);
