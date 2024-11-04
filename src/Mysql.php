@@ -41,7 +41,7 @@ readonly class Mysql
         foreach ($tablesData as $tablesDataItem) {
             [$tableName] = $tablesDataItem;
             $createTableData = $connection->query("SHOW CREATE TABLE `$tableName`")->fetch_all();
-            [, $createTableQuery] = current($createTableData);
+            [, $createTableQueryOrigin] = current($createTableData);
 
             $describeTableData = $connection->query("DESCRIBE `$tableName`")->fetch_all();
             $fields = [];
@@ -59,9 +59,51 @@ readonly class Mysql
                 ];
             }
 
+            $createFieldQueryParts = array_map(
+                function ($field) {
+                    [
+                        'field' => $name,
+                        'type' => $type,
+                        'default' => $default,
+                        'null' => $null,
+                        'auto' => $auto,
+                    ] = $field;
+                    $part = "`$name` $type";
+                    if (!$null) {
+                        $part .= " NOT NULL";
+                    }
+                    if (!is_null($default)) {
+                        $part .= " DEFAULT '$default'";
+                    }
+                    if ($auto) {
+                        $part .= " AUTO_INCREMENT";
+                    }
+                    return $part;
+                },
+                $fields,
+            );
+            $createFieldsQueryInsertion = implode(', ', $createFieldQueryParts);
+
+            $primaryKeyInsertion = implode(', ', array_map(
+                fn($field) => "`$field`",
+                array_map(
+                    fn($field) => $field['field'],
+                    array_filter(
+                        $fields,
+                        fn($field) => $field['primary'],
+                    ),
+                )
+            ));
+            if ($primaryKeyInsertion) {
+                $createFieldsQueryInsertion .= ", PRIMARY KEY($primaryKeyInsertion)";
+            }
+
+            $createTableQuery = "CREATE TABLE `$tableName` ($createFieldsQueryInsertion)";
+
             $databaseTableDump = [
                 'name' => $tableName,
                 'fields' => $fields,
+                'originQuery' => $createTableQueryOrigin,
                 'query' => $createTableQuery,
                 'entries' => [],
             ];
