@@ -131,11 +131,12 @@ readonly class Mysql
 
         $connection = $this->getConnection();
         $connection->select_db($database->name);
+        $connection->query("SET sql_mode = REPLACE(@@sql_mode, 'NO_ZERO_DATE', '')");
 
         foreach ($databaseDump[self::DUMP_VOLUME_TABLES] as $tableDump) {
             $tableName = $tableDump['name'];
             $connection->query("DROP TABLE IF EXISTS `$tableName`");
-            $connection->query($tableDump['query']);
+            $connection->query($tableDump['originQuery']);
             foreach ($tableDump['entries'] as $entryDump) {
                 $connection->query($entryDump['query']);
             }
