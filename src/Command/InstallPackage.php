@@ -9,11 +9,13 @@ use Seed\Model\Database;
 use Seed\Model\DatabaseUser;
 use Seed\Mysql;
 use Seed\Package;
+use Seed\Profiler;
 
 readonly class InstallPackage
 {
     public function __construct(
         private Logger $logger,
+        private Profiler $profiler,
         private Package $package,
         private Destination $destination,
         private Mysql $mysql,
@@ -32,14 +34,21 @@ readonly class InstallPackage
         $isCleanup = in_array('--cleanup', $input->flags);
         $destinationPath = $this->destination->getSitePath($name);
         if ($isCleanup) {
+            $this->profiler->check('cleanup');
             $this->destination->cleanup($name);
         }
+        $this->profiler->check('extract');
         $this->package->extract($corePackagePath, $destinationPath);
+        $this->profiler->check('move');
         $this->destination->move($name);
+        $this->profiler->check('configure');
         $this->destination->configure($name, $name, $name, $name, 'mysql');
 
+        $this->profiler->check('create-database');
         $this->mysql->createDatabase(new Database($name), new DatabaseUser($name, $name, '%'));
+        $this->profiler->check('restore-database-dump');
         $this->mysql->restoreDatabaseDump(new Database($name), $databaseDumpPath);
+        $this->profiler->dump('./profile.json');
 
         $this->logger->debug("WordPress unpacked to ", [$destinationPath]);
     }
