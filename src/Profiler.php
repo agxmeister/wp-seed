@@ -25,16 +25,21 @@ class Profiler
         }
     }
 
-    public function dump($path): void
+    public function report(): string
     {
         $this->finalize();
-        file_put_contents($path, json_encode([
+        return json_encode([
             'checks' => array_map(
                 fn($checkpoint) => $checkpoint['end'] - $checkpoint['start'],
                 $this->checkpoints,
             ),
             'total' => $this->getLastCheckpoint()['end'] - $this->getFirstCheckpoint()['start'],
-        ]));
+        ]);
+    }
+
+    public function dump($path): void
+    {
+        file_put_contents($path, $this->report());
     }
 
     private function getFirstCheckpoint(): array
