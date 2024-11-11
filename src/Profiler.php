@@ -28,27 +28,25 @@ class Profiler
     public function report(): string
     {
         $this->finalize();
+        $firstCheckpoint = count($this->checkpoints) > 0
+            ? $this->checkpoints[array_key_first($this->checkpoints)]
+            : null;
+        $lastCheckpoint = count($this->checkpoints) > 0
+            ? $this->checkpoints[array_key_last($this->checkpoints)]
+            : null;
         return json_encode([
             'checks' => array_map(
                 fn($checkpoint) => $checkpoint['end'] - $checkpoint['start'],
                 $this->checkpoints,
             ),
-            'total' => $this->getLastCheckpoint()['end'] - $this->getFirstCheckpoint()['start'],
+            'total' => !is_null($firstCheckpoint) && !is_null($lastCheckpoint)
+                ? $lastCheckpoint['end'] - $firstCheckpoint['start']
+                : 0,
         ]);
     }
 
     public function dump($path): void
     {
         file_put_contents($path, $this->report());
-    }
-
-    private function getFirstCheckpoint(): array
-    {
-        return $this->checkpoints[array_key_first($this->checkpoints)];
-    }
-
-    private function getLastCheckpoint(): array
-    {
-        return $this->checkpoints[array_key_last($this->checkpoints)];
     }
 }
