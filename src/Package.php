@@ -9,6 +9,7 @@ readonly class Package
 {
     const string TYPE_ZIP = 'zip';
     const string TYPE_GZIP = 'tar.gz';
+    const string TYPE_TAR = 'tar';
 
     public function __construct(private Catalog $catalog, private Storage $storage, private File $file)
     {
@@ -30,7 +31,7 @@ readonly class Package
                 $zip->open($sourcePath, ZipArchive::RDONLY);
                 $zip->extractTo($destinationPath);
             },
-            self::TYPE_GZIP => function () use ($sourcePath, $destinationPath) {
+            self::TYPE_GZIP, self::TYPE_TAR => function () use ($sourcePath, $destinationPath) {
                 $phar = new PharData($sourcePath);
                 $phar->extractTo($destinationPath);
             },

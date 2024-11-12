@@ -38,7 +38,7 @@ readonly class InstallPackage
             $this->destination->cleanup($name);
         }
         $this->profiler->check('extract');
-        $this->package->extract($corePackagePath, $destinationPath);
+        $this->package->extract($corePackagePath, $destinationPath, $this->package::TYPE_TAR);
         $this->profiler->check('move');
         $this->destination->move($name);
         $this->profiler->check('configure');
