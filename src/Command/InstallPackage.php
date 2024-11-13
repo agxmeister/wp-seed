@@ -48,7 +48,7 @@ readonly class InstallPackage
         $this->mysql->createDatabase(new Database($name), new DatabaseUser($name, $name, '%'));
         $this->profiler->check('restore-database-dump');
         $this->mysql->restoreDatabaseDump(new Database($name), $databaseDumpPath);
-        $this->profiler->dump('./profile.json');
+        $this->profiler->dump('./profile-package.json');
 
         $this->logger->debug("WordPress unpacked to ", [$destinationPath]);
     }
