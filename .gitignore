@@ -3,10 +3,12 @@
 !/dst/tools
 !/dst/packages
 !/dst/seeds
+!/dst/farm
 !/dst/web
 /dst/tools/*
 /dst/packages/*
 /dst/seeds/*
+/dst/farm/*
 /dst/web/*
 !.gitkeep
 .idea
