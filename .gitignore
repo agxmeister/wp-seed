@@ -2,9 +2,11 @@
 /dst/*
 !/dst/tools
 !/dst/packages
+!/dst/seeds
 !/dst/web
 /dst/tools/*
 /dst/packages/*
+/dst/seeds/*
 /dst/web/*
 !.gitkeep
 .idea
