@@ -8,6 +8,7 @@ use Seed\Catalog;
 use Seed\Destination;
 use Seed\Downloader\Downloader;
 use Seed\Downloader\GuzzleHttp;
+use Seed\Farm;
 use Seed\Mysql;
 use Seed\Storage;
 use Seed\Tools;
@@ -27,6 +28,7 @@ return [
         ),
     Tools::class => DI\autowire()->constructor(basePath: './dst/tools'),
     Storage::class => DI\autowire()->constructor(basePath: './dst/packages'),
+    Farm::class => DI\autowire()->constructor(basePath: './dst/farm'),
     Destination::class => DI\autowire()->constructor(basePath: './dst/web'),
     Downloader::class => DI\autowire(GuzzleHttp::class),
     Mysql::class => DI\autowire()->constructor(

@@ -4,7 +4,7 @@ namespace Seed\Command;
 
 use Minicli\Command\CommandCall;
 use Monolog\Logger;
-use Seed\Destination;
+use Seed\Farm;
 use Seed\Model\Database;
 use Seed\Model\DatabaseUser;
 use Seed\Mysql;
@@ -18,7 +18,7 @@ readonly class InstallClean
         private Logger $logger,
         private Profiler $profiler,
         private Package $package,
-        private Destination $destination,
+        private Farm $farm,
         private Mysql $mysql,
         private WpCli $wpCli,
     )
@@ -36,17 +36,17 @@ readonly class InstallClean
         $this->profiler->check('get-core');
         $corePackagePath = $this->package->getCore($version);
         $this->profiler->finalize();
-        $destinationPath = $this->destination->getSitePath($name);
+        $destinationPath = $this->farm->getSitePath($name);
         if ($isCleanup) {
             $this->profiler->check('cleanup');
-            $this->destination->cleanup($name);
+            $this->farm->cleanup($name);
         }
         $this->profiler->check('extract');
         $this->package->extract($corePackagePath, $destinationPath);
         $this->profiler->check('move');
-        $this->destination->move($name);
+        $this->farm->move($name);
         $this->profiler->check('configure');
-        $this->destination->configure($name, $name, $name, $name, 'mysql');
+        $this->farm->configure($name, $name, $name, $name, 'mysql');
         $this->profiler->check('create-database');
         $this->mysql->createDatabase(new Database($name), new DatabaseUser($name, $name, '%'));
         $this->profiler->check('install-core');
