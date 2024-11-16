@@ -30,8 +30,8 @@ readonly class InstallPackage
         $name = $input->params['--name'] ?? null;
         $corePackagePath = $input->params['--package-path'] ?? null;
         $databaseDumpPath = $input->params['--database-dump-path'] ?? null;
-
         $isCleanup = in_array('--cleanup', $input->flags);
+
         $destinationPath = $this->farm->getSitePath($name);
         if ($isCleanup) {
             $this->profiler->check('cleanup');
@@ -41,6 +41,7 @@ readonly class InstallPackage
         $this->package->extract($corePackagePath, $destinationPath, $this->package::TYPE_TAR);
         $this->profiler->check('move');
         $this->farm->move($name);
+
         $this->profiler->check('configure');
         $this->farm->configure($name, $name, $name, $name, 'mysql');
 

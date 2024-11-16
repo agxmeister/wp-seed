@@ -15,7 +15,7 @@ readonly class Package
     {
     }
 
-    public function getCore(string $version = null, string $filename = null, PackageType $type = null): string
+    public function getCore(?string $version = null, ?string $filename = null, ?PackageType $type = null): string
     {
         $url = $this->catalog->getCorePackageUrl($version, $type);
         $destinationPath = $this->storage->getPackagePath($filename ?? basename(parse_url($url, PHP_URL_PATH)));

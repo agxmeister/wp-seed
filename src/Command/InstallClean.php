@@ -31,20 +31,10 @@ readonly class InstallClean
 
         $name = $input->params['--name'] ?? null;
         $version = $input->params['--version'] ?? null;
-        $isCleanup = in_array('--cleanup', $input->flags);
+        $cleanup = in_array('--cleanup', $input->flags);
 
-        $this->profiler->check('get-core');
-        $corePackagePath = $this->package->getCore($version);
-        $this->profiler->finalize();
-        $destinationPath = $this->farm->getSitePath($name);
-        if ($isCleanup) {
-            $this->profiler->check('cleanup');
-            $this->farm->cleanup($name);
-        }
-        $this->profiler->check('extract');
-        $this->package->extract($corePackagePath, $destinationPath);
-        $this->profiler->check('move');
-        $this->farm->move($name);
+        $this->profiler->check('deploy');
+        $this->farm->deploy($name, $version, $cleanup);
         $this->profiler->check('configure');
         $this->farm->configure($name, $name, $name, $name, 'mysql');
         $this->profiler->check('create-database');
@@ -53,6 +43,6 @@ readonly class InstallClean
         $this->wpCli->run($name, "core install --url=example.com --title=mysite --admin_user=admin --admin_email=admin@example.com --allow-root");
         $this->profiler->dump('./profile-clean.json');
 
-        $this->logger->debug("WordPress installed to ", [$destinationPath]);
+        $this->logger->debug("WordPress installed to ", [$this->farm->getSitePath($name)]);
     }
 }
