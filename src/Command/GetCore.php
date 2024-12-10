@@ -4,13 +4,12 @@ namespace Seed\Command;
 
 use Minicli\Command\CommandCall;
 use Monolog\Logger;
-use Seed\Package;
+use Seed\Fetcher;
 use Seed\PackageType;
-use function DI\value;
 
 readonly class GetCore
 {
-    public function __construct(private Logger $logger, private Package $package)
+    public function __construct(private Logger $logger, private Fetcher $fetcher)
     {
     }
 
@@ -21,7 +20,7 @@ readonly class GetCore
         $version = $input->params['--version'] ?? null;
         $this->logger->debug("Use version...", [$version ?? 'latest']);
         $type = $input->params['--type'] ?? null;
-        $this->package->getCore(
+        $this->fetcher->getCore(
             $version,
             $filename,
             array_reduce(

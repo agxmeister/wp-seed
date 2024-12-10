@@ -4,7 +4,7 @@ namespace Seed;
 
 readonly class Farm
 {
-    public function __construct(private string $basePath, private Package $package)
+    public function __construct(private string $basePath, private Package $package, private Fetcher $fetcher)
     {
     }
 
@@ -18,7 +18,7 @@ readonly class Farm
         if ($cleanup) {
             $this->cleanup($name);
         }
-        $corePackagePath = $this->package->getCore($version);
+        $corePackagePath = $this->fetcher->getCore($version);
         $destinationPath = $this->getSitePath($name);
         $this->package->extract($corePackagePath, $destinationPath);
         $this->move($name);
