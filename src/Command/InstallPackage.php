@@ -9,6 +9,7 @@ use Seed\Model\Database;
 use Seed\Model\DatabaseUser;
 use Seed\Mysql;
 use Seed\Package;
+use Seed\PackageType;
 use Seed\Profiler;
 
 readonly class InstallPackage
@@ -38,7 +39,7 @@ readonly class InstallPackage
             $this->farm->cleanup($name);
         }
         $this->profiler->check('extract');
-        $this->package->extract($corePackagePath, $destinationPath, $this->package::TYPE_TAR);
+        $this->package->extract($corePackagePath, $destinationPath, PackageType::TYPE_TAR);
         $this->profiler->check('move');
         $this->farm->move($name);
 
